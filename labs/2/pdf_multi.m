@@ -11,10 +11,12 @@ function pdf = pdf_multi(pts, para)
 %	number of columns == number of classes
 
 	pdf = rand(rows(pts), rows(para.mu)); % not very useful implementation :)
-	
-	% YOUR CODE GOES HERE 
+	% YOUR CODE GOES HERE
 	% for each class you should compute multidimensional pdf
-		% nice thing here is mvnpdf function - you need to call it once to compute 
-		% pdf values for all points in pts
+	for i=1:rows(para.labels)
 
+		% nice thing here is mvnpdf function - you need to call it once to compute
+		% pdf values for all points in pts
+		pdf(:,i) = mvnpdf(pts, para.mu(i,:), para.sig(:,:,i));
+	end
 end
