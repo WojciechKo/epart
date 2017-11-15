@@ -36,16 +36,16 @@ disp([median(train); median(test)]);
 
 % plot histogram - to check histogram plotting first show labels (1..4)
 % we can use hist for labels to check what the plot looks like
-figure(1)
+figure
 hist(train(:,1)')
 
 % now plot histogram of the first feature
-figure(2)
+figure
 hist(train(:,2))
 
 % plot 2-dimensional diagram of the first two features
 % it's good to repeat plotting after each modification of the training set
-figure(3)
+figure
 plot2features(train, 2, 3);
 
 disp('Sorted train set:');
@@ -64,7 +64,7 @@ train(row_to_be_removed_index,:)=[];
 % Are there any outliers left?
 
 % Here you probably add some code :)
-figure(4)
+figure
 plot2features(train, 2, 3);
 
 disp('Sorted train set:');
@@ -76,7 +76,7 @@ disp('Remove min outlier:');
 disp(out);
 train(out.indices(2),:)=[];
 
-figure(5)
+figure
 plot2features(train, 2, 3);
 
 disp('Recalculate mean and median for train data');
@@ -244,12 +244,12 @@ rep_cnt = 5; % minimalistic approach
 
 % YOUR CODE GOES HERE 
 %
-function reduced = reduce(set, labels, part)
+function reduced = reduce(set, labels, parts)
   reduced = [];
   for i=1:rows(labels)
     sub = set(set(:,1) == i, :);
     rand = randperm(rows(sub));
-    count = rows(sub) * part;
+    count = int32(rows(sub) * parts(i));
     reduced = [reduced; sub(rand(1:count),:)];
   end
 end
@@ -258,7 +258,7 @@ parts_error = zeros(columns(parts), rep_cnt);
 
 for part_i=1:columns(parts)
   for rep=1:rep_cnt
-    sub_train = reduce(train, labels, parts(part_i));
+    sub_train = reduce(train, labels, zeros(size(labels')) + parts(part_i));
 
     for i=1:rows(labels)
       pdfparzen_para.samples{i} = sub_train(sub_train(:,1) == labels(i), 2:end);
@@ -271,7 +271,7 @@ end
 
 disp('Classification error for following parts of train set');
 disp([parts; mean(parts_error, 2)']);
-figure(6)
+figure
 plot(parts,  mean(parts_error, 2));
 
 % Point 4 uses full data set again
@@ -295,10 +295,9 @@ end
 disp('Classification error for following sizes of parzen window');
 disp([parzen_widths; parzen_res]);
 
-figure(7)
+figure
 semilogx(parzen_widths, parzen_res)
 
-figure(8)
 % In point 5 you should reduce TEST SET (no need to touch train set)
 % 
 apriori = [0.17 0.33 0.33 0.17];
@@ -306,6 +305,16 @@ parts = [0.5 1.0 1.0 0.5];
 
 % YOUR CODE GOES HERE 
 %
+
+pdfparzen_para.parzenw = 0.0001;
+
+sub_test = reduce(test, labels, parts);
+errcls = mean(bayescls(sub_test(:,2:end), @pdf_parzen, pdfparzen_para, apriori) != sub_test(:,1));
+
+disp("Changed a priori probability");
+disp(apriori);
+display("Result of classification");
+disp(errcls);
 
 % In point 6 we should consider data normalization
 std(train(:,2:end))
