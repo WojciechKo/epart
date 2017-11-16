@@ -308,16 +308,23 @@ parts = [0.5 1.0 1.0 0.5];
 
 pdfparzen_para.parzenw = 0.0001;
 
+errcls = mean(bayescls(test(:,2:end), @pdf_parzen, pdfparzen_para, apriori) != test(:,1));
+
+disp("Without change of proportions in test set");
+disp("Result of classification");
+disp(errcls);
+
 sub_test = reduce(test, labels, parts);
 errcls = mean(bayescls(sub_test(:,2:end), @pdf_parzen, pdfparzen_para, apriori) != sub_test(:,1));
 
-disp("Changed a priori probability");
+disp("Change proportion of test class");
 disp(apriori);
-display("Result of classification");
+disp("Result of classification");
 disp(errcls);
 
 % In point 6 we should consider data normalization
-std(train(:,2:end))
+disp("Standard deviation of features");
+disp(std(train(:,2:end)));
 
 % Should we normalize?
 % If YES remember to normalize BOTH training and testing sets
@@ -325,3 +332,50 @@ std(train(:,2:end))
 % YOUR CODE GOES HERE 
 %
 
+function label = cls1nn(ts, x)
+  diff = ts(:,2:end) - repmat(x, rows(ts), 1);
+  dist = sumsq(diff, 2);
+  [~, idx] = min(dist);
+  label = ts(idx, 1);
+end
+
+function errcf = check_1nn(train, test)
+  errors = zeros(rows(test), 1);
+  for i=1:rows(test)
+    errors(i) = cls1nn(train, test(i, 2:end)) != test(i, 1);
+  end
+  errcf = mean(errors);
+end
+
+function [norm_train, norm_test] = normalize(train, test, fun)
+  norm_train = zeros(size(train));
+  norm_test = zeros(size(test));
+  norm_train(:,1) = train(:,1);
+  norm_test(:,1) = test(:,1);
+  for i=2:columns(test)
+    norm_train(:,i) = fun(train(:,i), train(:,i));
+    norm_test(:,i) = fun(train(:,i), test(:,i));
+  end
+end
+
+function mean_norm = mean_norm(base, vector)
+  mean_norm = (vector - mean(base)) / (max(base) - min(base));
+end
+
+function std_norm = std_norm(base, vector)
+  std_norm = (vector - mean(base)) / std(base);
+end
+
+raw_error = check_1nn(train, test);
+disp("1nn error before normalization");
+disp(raw_error);
+
+[mean_train, mean_test] = normalize(train, test, @mean_norm);
+mean_error = check_1nn(mean_train, mean_test);
+disp("1nn error after mean normalization");
+disp(mean_error);
+
+[std_train, std_test] = normalize(train, test, @std_norm);
+std_error = check_1nn(std_train, std_test);
+disp("1nn error after standardization");
+disp(std_error);
