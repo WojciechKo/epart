@@ -16,5 +16,5 @@ function side = lincls(sepplane, samples)
 	%% number of columns in samples matrix
 	%% You should add to samples column of 1 (ones)
 	%% as the first column (see sepplane description above)
-	
-	
+
+end

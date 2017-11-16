@@ -30,5 +30,6 @@ function ovosp = trainOVOensamble(tset, tlab)
 
     % store the separating plane coefficients (this is our classifier)
 	% in ovo matrix
-    ovosp(i, 3:end) = sp; 
+    ovosp(i, 3:end) = sp;
   end
+end

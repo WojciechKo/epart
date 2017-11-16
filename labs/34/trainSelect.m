@@ -9,9 +9,10 @@ function [errCnt sp] = trainSelect(posc, negc, reps)
 
   manysp = zeros(reps, 1 + columns(posc));
   errors = zeros(reps, 1);
-  
+
   for i=1:reps
     [errors(i) manysp(i,:)] = perceptron(posc, negc);
   end
   [errCnt theBestIdx] = min(errors);
   sp = manysp(theBestIdx, :);
+end

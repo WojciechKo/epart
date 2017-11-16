@@ -12,7 +12,7 @@ function votes = voting(tset, clsmx)
 	labels = unique(clsmx(:,1:2)(:));
 	% prepare voting result
 	votes = zeros(size(tset,1), size(labels,1));
-	
+
 	% for all individual classifiers
 	for i=1:size(clsmx,1)
 		% get response of one ovo classifier for all samples
@@ -32,4 +32,4 @@ function votes = voting(tset, clsmx)
 		%   increase number of votes for negative class by one
 		votes(res == 0, nid) += 1;
 	end
-	
+end
