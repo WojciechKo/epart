@@ -1,4 +1,4 @@
-function [errors sepplane] = perceptron(positive_samples, negative_samples)
+function [errors sepplane] = perceptron(positive_samples, negative_samples, learning_rate = 0.00005)
 % Computes separating plane (linear classifier) using
 % perceptron method
 % positive_samples - 'positive' class (one row contains one sample)
@@ -20,7 +20,7 @@ function [errors sepplane] = perceptron(positive_samples, negative_samples)
 
     %% 2. Compute separating plane correction
     %%		This is sum of misclassfied samples coordinate times learning rate
-    delta_sepplane = (classify(missed) - tset(missed, 1))' * [ones(rows(tset(missed)),1) tset(missed,2:end)] * 0.00005;
+    delta_sepplane = (classify(missed) - tset(missed, 1))' * [ones(rows(tset(missed)),1) tset(missed,2:end)] * learning_rate;
 
     %% 3. Modify solution (i.e. sepplane)
     sepplane = sepplane - delta_sepplane;
