@@ -2,9 +2,10 @@ function cfmx = confMx(truelab, declab)
 % computes confusion matrix cfmx given
 % truelab - column vector of ground-truth labels
 % declab - column vector of classifiers decisions
+
 % cfmx - confusion matrix:
-%	rows - are for ground truth
-%	columns - are for classfier output
+%	       rows are for ground truth
+%	       columns are for classfier output
 % It's assumed that rejection decision is coded as max(labels)+1
 
   labels = unique(truelab);

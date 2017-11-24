@@ -1,20 +1,20 @@
-function [errCnt sp] = trainSelect(posc, negc, reps)
+function [err sp] = trainSelect(positive_samples, negative_samples, reps)
 % Performs learning of the linear classifier (reps) times
 % and selects the best classifier
-% posc - samples of class which should be on the positive side of separating plane
-% negc - samples of class which should be on the negative side of separating plane
+% positive_samples - samples of class which should be on the positive side of separating plane
+% negative_samples - samples of class which should be on the negative side of separating plane
 % reps - number of repetitions of training
 
-% errCnt - number of errors of the linear classifier sp  on the training set
+% err - percent of samples that were missclassified
 % sp - coefficients of the best separating plane
 
   %                    bias + vector size
-  manysp = zeros(reps, 1    + columns(posc));
+  manysp = zeros(reps, 1    + columns(positive_samples));
   errors = zeros(reps, 1);
 
   for i=1:reps
-    [errors(i) manysp(i,:)] = perceptron(posc, negc);
+    [errors(i) manysp(i,:)] = perceptron(positive_samples, negative_samples);
   end
-  [errCnt theBestIdx] = min(errors);
+  [err theBestIdx] = min(errors);
   sp = manysp(theBestIdx, :);
 end

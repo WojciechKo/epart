@@ -43,7 +43,7 @@ test_vectors = pcaTransform(test_vectors, mean, transformation_matrix);
 %%%% YOUR CODE GOES HERE %%%%
 
 % (some work is hidden deep in trainOVOensemble dependencies)
-ovo = trainOVOensamble(train_vectors, train_labels);
+[errors, ovo] = trainOVOensamble(train_vectors, train_labels);
 
 % let's classify something (lincls to modify)
 votes = voting(train_vectors, ovo);
@@ -53,14 +53,13 @@ votes(1:8, :)
 
 % produce classification decisions
 [mv mid] = max(votes, [], 2);
-clsres = mid;
+train_classification = mid;
 
 % add reject desision when there's disagreement
-clsres(mv ~= 9) = 11; 
+train_classification(mv ~= 9) = 11
 
-cfmx = confMx(train_labels, clsres)
+cfmx = confMx(train_labels, train_classification)
 errcf = compErrors(cfmx)
 
-% after that you can start experiments with 
+% after that you can start experiments with
 % a better classification approach
-
