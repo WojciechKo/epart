@@ -4,8 +4,8 @@ function [errors sepplane] = testPerceptron(positive_samples, negative_samples)
 
   [err, sep] = perceptron(pos, neg, 0.01);
 
-  err
-  [lincls(sep, pos); lincls(sep, neg)]
+  err;
+  [lincls(sep, pos); lincls(sep, neg)];
 
   figure
   hold

@@ -31,7 +31,7 @@ labels = unique(train_labels)';
 
 % now it's time to reduce dimensionality of our data
 % today 57 primary components seems to be right choice :)
-[mean transformation_matrix] = prepTransform(train_vectors, 57);
+[mean transformation_matrix] = prepTransform(train_vectors, 50);
 
 train_vectors = pcaTransform(train_vectors, mean, transformation_matrix);
 test_vectors = pcaTransform(test_vectors, mean, transformation_matrix);
@@ -42,21 +42,27 @@ test_vectors = pcaTransform(test_vectors, mean, transformation_matrix);
 
 %%%% YOUR CODE GOES HERE %%%%
 
+# Task 1
+testPerceptron
+
 % (some work is hidden deep in trainOVOensemble dependencies)
 [errors, ovo] = trainOVOensamble(train_vectors, train_labels);
+
+# Task 2
+[ovo(:,1:2) errors]
 
 % let's classify something (lincls to modify)
 votes = voting(train_vectors, ovo);
 
 % what's the result of voting
-votes(1:8, :)
+votes(1:8, :);
 
 % produce classification decisions
 [mv mid] = max(votes, [], 2);
 train_classification = mid;
 
 % add reject desision when there's disagreement
-train_classification(mv ~= 9) = 11
+train_classification(mv ~= 9) = 11;
 
 cfmx = confMx(train_labels, train_classification)
 errcf = compErrors(cfmx)
