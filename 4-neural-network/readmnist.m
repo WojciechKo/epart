@@ -16,7 +16,6 @@ for i=1:cnt
    tvec(i,:) = (im(:)/255.0)';
 end;
 fclose(fid);
-cnt
 
 fid = fopen(labelfn, 'rb');
 if fid==-1
@@ -28,4 +27,3 @@ if nel ~= cnt
    disp('Not all elements read.');
 end;
 fclose(fid);
-nel
