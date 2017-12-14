@@ -1,6 +1,6 @@
 function [hl ol] = crann(cfeat, chn, cclass)
 % generates hidden and output ANN weight matrices
-% cfeat - number of features 
+% cfeat - number of features
 % chn - number of neurons in the hidden layer
 % cclass - number of neurons in the outpur layer (= number of classes)
 

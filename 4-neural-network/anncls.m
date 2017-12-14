@@ -1,6 +1,6 @@
 function lab = anncls(tset, hidlw, outlw)
 % simple ANN classifier
-% tset - data to be classified (every row represents a sample) 
+% tset - data to be classified (every row represents a sample)
 % hidlw - hidden layer weight matrix
 % outlw - output layer weight matrix
 
@@ -9,8 +9,8 @@ function lab = anncls(tset, hidlw, outlw)
 
 	hlact = [tset ones(rows(tset), 1)] * hidlw;
 	hlout = actf(hlact);
-	
+
 	olact = [hlout ones(rows(hlout), 1)] * outlw;
 	olout = actf(olact);
-	
+
 	[~, lab] = max(olout, [], 2);

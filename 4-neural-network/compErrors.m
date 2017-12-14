@@ -5,4 +5,3 @@ function [errors] = compErrors(confmx)
 	errors(1) = trace(confmx) / total;
 	errors(2) = (total - trace(confmx) - sum(confmx(:,end))) / total;
 	errors(3) = sum(confmx(:,end)) / total;
-	

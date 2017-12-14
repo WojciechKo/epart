@@ -1,5 +1,5 @@
 function res = actf(tact)
 % sigmoid activation function
-% tact - total activation 
+% tact - total activation
 
-	res = ones(size(tact));
+  res = 1 ./ (1 + e.^-tact);

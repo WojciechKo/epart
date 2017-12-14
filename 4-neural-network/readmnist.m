@@ -1,5 +1,5 @@
 function [tlab, tvec] = readmnist(datafn, labelfn)
-% function reads mnist data and labels 
+% function reads mnist data and labels
 
 fid = fopen(datafn, 'rb');
 if fid==-1
@@ -24,7 +24,7 @@ if fid==-1
 end;
 fseek(fid, 8, 'bof');
 [tlab nel] = fread(fid, cnt, 'uchar');
-if nel ~= cnt 
+if nel ~= cnt
    disp('Not all elements read.');
 end;
 fclose(fid);
