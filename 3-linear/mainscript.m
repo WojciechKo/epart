@@ -64,8 +64,36 @@ train_classification = mid;
 % add reject desision when there's disagreement
 train_classification(mv ~= 9) = 11;
 
-cfmx = confMx(train_labels, train_classification)
-errcf = compErrors(cfmx)
+train_cfmx = confMx(train_labels, train_classification)
+train_errcf = compErrors(train_cfmx)
+
+% Task 3
+canonical_votes = voting(test_vectors, ovo);
+
+% produce classification decisions
+[mv mid] = max(canonical_votes, [], 2);
+canonical_classification = mid;
+
+% add reject desision when there's disagreement
+canonical_classification(mv ~= 9) = 11;
+
+canonical_cfmx = confMx(test_labels, canonical_classification)
+canonical_errcf = compErrors(canonical_cfmx)
+
+[sorted_confident, sorted_number] = sort(canonical_votes, 2);
+
+classification = zeros(rows(sorted_confident), 1);
+for i=10:-1:8
+  doubtless = sorted_confident(:,i) != sorted_confident(:,i-1);
+  not_set = classification == 0;
+
+  classification(not_set & doubtless) = sorted_number(not_set & doubtless, i);
+  classification(not_set & !doubtless) = 11;
+
+  errcf = compErrors(confMx(test_labels, classification))
+end
+
+cfmx = confMx(test_labels, classification)
 
 % after that you can start experiments with
 % a better classification approach
