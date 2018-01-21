@@ -8,6 +8,6 @@ function [hl ol] = crann(cfeat, chn, cclass)
 % ol - output layer weight matrix
 
 % ATTENTION: we assume that constant value IS NOT INCLUDED
- 
+
 	hl = (rand(cfeat + 1, chn) - 0.5) / sqrt(cfeat + 1);
 	ol = (rand(chn + 1, cclass) - 0.5) / sqrt(chn + 1);
