@@ -1,4 +1,4 @@
-function [hidden_layer, output_layer, total_error] = backprop(input, labels, inihidlw, inioutlw, lr)
+function [hidden_layer, output_layer, total_error, hidden_adjust_sum, output_adjust_sum] = backprop(input, labels, inihidlw, inioutlw, lr)
 % derivative of sigmoid activation function
 % input - training set (every row represents a sample)
 % labels - column vector of labels
@@ -54,4 +54,3 @@ function [hidden_layer, output_layer, total_error] = backprop(input, labels, ini
     hidden_layer += hidden_adjust;
     hidden_adjust_sum += sum(abs(hidden_adjust(:)));
   end
-  printf("Adjust of hidden: %f\tAdjust of output: %f\n", hidden_adjust_sum , output_adjust_sum )

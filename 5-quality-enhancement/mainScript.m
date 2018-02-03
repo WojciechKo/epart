@@ -15,7 +15,7 @@ tnames = {
 'test_5.txt', 
 'test_6.txt', 
 'test_7.txt'};
-	
+
 vtab = loadCNNOutputs(vnames);
 load validlab.txt
 validlab = validlab + 1;
@@ -41,7 +41,7 @@ tcmMaj = voteMaj(ttab, testlab);
 tcmPlr = votePlr(ttab, testlab);
 
 resVald = [compErrors(vcmUni); compErrors(vcmMaj); compErrors(vcmPlr);]
-resTest = [compErrors(tcmUni); compErrors(tcmMaj); compErrors(tcmPlr);] 
+resTest = [compErrors(tcmUni); compErrors(tcmMaj); compErrors(tcmPlr);]
 
 [resVald fobj(resVald)]
 [resTest fobj(resTest)]
